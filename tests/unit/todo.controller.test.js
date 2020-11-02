@@ -16,6 +16,16 @@ describe('Todo Controller', () => {
         TodoModel.create.mockReturnValue(newTodo);
     });
 
+    describe('Get todos', () => {
+
+        it('should have get todos function', () => {
+            expect(typeof TodoController.getTodos).toBe("function");
+        });
+
+        
+
+    });
+
     describe('Todo create todo', () => {
 
         beforeEach(() => {
