@@ -6,16 +6,18 @@ const dbConfig = require('../../src/configs/db');
 const newTodo = require('../mock-data/new-todo.json');
 const endpoint_url = "/todos";
 
+let appx = request(app);
 describe(endpoint_url, () => {
 
     beforeEach( async () => {
         await dbConfig.clearTestDb();
+        await appx.post(endpoint_url).send(newTodo);
     });
 
     it('POST ' + endpoint_url, async () => {
         
         const response = await 
-        request(app)
+        appx
         .post(endpoint_url)
         .send(newTodo);
 
@@ -27,7 +29,7 @@ describe(endpoint_url, () => {
 
     it('POST error' + endpoint_url, async () => {
         const response = await 
-        request(app)
+        appx
         .post(endpoint_url)
         .send({title:"just title"});
 
@@ -40,14 +42,14 @@ describe(endpoint_url, () => {
 
 
     it('GET ' + endpoint_url, async () => {
-        await request(app).post(endpoint_url).send(newTodo);
-
+        
         const response = await 
-        request(app)
+        appx
         .get(endpoint_url)
         .send();
         
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
     });
+
 })
