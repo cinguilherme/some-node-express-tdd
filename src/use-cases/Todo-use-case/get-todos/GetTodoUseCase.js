@@ -1,14 +1,17 @@
-
+const { Responder } = require('./Responder');
 class GetTodos {
-    constructor(model){
+    constructor(model, command){
         this.model = model;
+        this.command = command;
     }
 
     execute = async () => {
         try {
-            return await this.model.find();
+            const data = await this.model.find();
+            
+            return new Responder(data, undefined);
         } catch (err) {
-            return {errorMessage: err};
+            return new Responder(undefined, err)
         } 
     }
 }
