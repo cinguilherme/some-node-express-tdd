@@ -63,6 +63,7 @@ describe('Get todos', () => {
 
         it('should get todo by id', async () => {
             TodoModel.findById.mockReturnValue(newTodo);
+            request.params.id = 1;
             await TodoController.getTodoById(request, response, next);
             expect(response.statusCode).toBe(200);
             expect(response._getJSONData()).toStrictEqual(newTodo);
