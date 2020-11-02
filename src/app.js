@@ -1,5 +1,9 @@
 require('dotenv').config()
+const dbconfig = require('./configs/db');
 const express = require('express')
+
+const dbName = process.env.DB_NAME;
+dbconfig.connect(dbName);
 
 const app = express()
 const todoRoutes = require('./routes/todo.routes');

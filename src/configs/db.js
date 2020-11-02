@@ -15,14 +15,29 @@ const options = {
     connectTimeoutMS: 10000,
 }
 
-const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
 
 
+exports.connect = (dbName) => {
 
-mongoose.connect(url, options)
-.then(() => {
-    console.log('mongo connected');
-})
-.catch((err) => {
-    console.log(err);
-});
+    let url;
+    if(dbName) {
+        url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${dbName}?authSource=admin`;
+    } else {
+        url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+    }
+
+    mongoose.connect(url, options)
+    .then(() => {
+        console.log('dbName -> ', dbName);
+        console.log('mongo connected');
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+
+
+exports.clearTestDb = async () => {
+    
+    await mongoose.connection.dropDatabase();
+}

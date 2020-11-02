@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const db = require('../configs/db');
+
 
 const TodoSchema = new mongoose.Schema({
 
