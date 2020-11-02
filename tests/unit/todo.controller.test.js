@@ -1,7 +1,8 @@
 const TodoController = require('../../src/use-cases/Todo-use-case/TodoController');
 const TodoModel = require('../../src/model/todo.model')
 const httpMocks = require('node-mocks-http');
-const newTodo = require('../mock-data/new-todo.json')
+const newTodo = require('../mock-data/new-todo.json');
+const severalTodos = require('../mock-data/all-todos.json');
 
 TodoModel.create = jest.fn();
 TodoModel.find = jest.fn();
@@ -28,7 +29,34 @@ describe('Todo Controller', () => {
             await TodoController.getTodos(request, response, next);
             expect(response.statusCode).toBe(200);
             expect(response._getJSONData()).toStrictEqual([newTodo]);
+            expect(response._isEndCalled()).toBeTruthy();
         })
+
+        it('should return several todos' , async () => {
+            TodoModel.find.mockReturnValue(severalTodos);
+            await TodoController.getTodos(request, response, next);
+            expect(response.statusCode).toBe(200);
+            expect(response._getJSONData()).toStrictEqual(severalTodos);
+            expect(response._isEndCalled()).toBeTruthy();
+        });
+
+        it('should return zero todos' , async () => {
+            TodoModel.find.mockReturnValue([]);
+            await TodoController.getTodos(request, response, next);
+            expect(response.statusCode).toBe(200);
+            expect(response._getJSONData()).toStrictEqual([]);
+            expect(response._isEndCalled()).toBeTruthy();
+        });
+
+        it('should handle error on get todos', async () => {
+            const errorMessage = {message: "unable to retrieve data from mongo"};
+            const rejectedPromise = Promise.reject(errorMessage);
+            TodoModel.find.mockReturnValue(rejectedPromise);
+            await TodoController.getTodos(request, response, next);
+            expect(response.statusCode).toBe(500);
+            expect(response._getJSONData().errorMessage).toStrictEqual(errorMessage);
+        });
+
 
     });
 

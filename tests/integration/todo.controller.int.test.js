@@ -9,7 +9,6 @@ const endpoint_url = "/todos";
 describe(endpoint_url, () => {
 
     beforeEach( async () => {
-        console.log('before each run');
         await dbConfig.clearTestDb();
     });
 
@@ -47,7 +46,7 @@ describe(endpoint_url, () => {
         request(app)
         .get(endpoint_url)
         .send();
-        console.log(response.body);
+        
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(1);
     });

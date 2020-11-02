@@ -7,8 +7,7 @@ class GetTodos {
 
     execute = async () => {
         try {
-            const data = await this.model.find();
-            
+            const data = await this.model.find({});
             return new Responder(data, undefined);
         } catch (err) {
             return new Responder(undefined, err)
