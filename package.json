@@ -6,7 +6,8 @@
   "scripts": {
     "go": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "lint": "eslint --fix --ext .js ."
   },
   "dependencies": {
     "dotenv": "^8.2.0",

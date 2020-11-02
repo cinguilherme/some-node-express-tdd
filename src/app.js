@@ -12,15 +12,15 @@ app.use(express.json());
 
 app.use('/todos', todoRoutes);
 
-app.use( (error, req, res, next) => {
+app.use((error, req, res) => {
     res.status(500)
-    .json({message: error.message})
-    .send();
+        .json({ message: error.message })
+        .send();
 });
 
 app.get('/', (req, res) => {
-    return res.json({status: "ok"})
-    
+    return res.json({ status: "ok" })
+
 })
 
 module.exports = app;

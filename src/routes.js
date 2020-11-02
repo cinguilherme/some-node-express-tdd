@@ -6,4 +6,4 @@ mainRoute.get('/', (req, res) => {
     return res.json();
 })
 
-export default mainRoute;
+module.exports = { mainRoute }
