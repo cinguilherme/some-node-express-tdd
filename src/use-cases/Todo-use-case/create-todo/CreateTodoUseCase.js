@@ -7,7 +7,7 @@ class CreateTodo {
         this.command = command;
     }
 
-    execute = async () => {
+    async execute() {
         try {
             const data = await this.model.create(this.command.data);
             return new Responder(data, undefined);

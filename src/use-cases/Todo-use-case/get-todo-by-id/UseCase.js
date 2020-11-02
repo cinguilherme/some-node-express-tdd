@@ -6,17 +6,15 @@ class UseCase {
         this.command = command;
     }
 
-    execute = async () => {
+    async execute() {
         const id = this.command.id;
         try {
-            const result = await this.model.findById({ id });
+            const result = await this.model.findById(id);
             return new Responder(result, undefined);
         } catch(err) {
             return new Responder(undefined, err);
         }
-
     }
-
 }
 
 module.exports = { UseCase }

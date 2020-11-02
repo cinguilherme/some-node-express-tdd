@@ -5,7 +5,7 @@ class GetTodos {
         this.command = command;
     }
 
-    execute = async () => {
+    async execute() {
         try {
             const data = await this.model.find({});
             return new Responder(data, undefined);

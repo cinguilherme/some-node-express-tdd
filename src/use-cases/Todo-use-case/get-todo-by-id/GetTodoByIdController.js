@@ -6,6 +6,7 @@ const { Command } = require('./Command');
 exports.getTodoById = async (request, response, next) => {
     
     const { id } = request.params;
+    console.log(id);
     const command = new Command(id);
     const useCase = new UseCase(TodoModel, command);
     const responder = await useCase.execute();

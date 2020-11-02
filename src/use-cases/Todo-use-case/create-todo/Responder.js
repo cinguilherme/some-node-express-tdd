@@ -5,11 +5,11 @@ class Responder {
         this.err = err;
     }
 
-    isErr = () => {
+    isErr() {
         return this.err !== undefined;
     }
 
-    extract = () => {
+    extract() {
         return this.isErr() ? { errorMessage: this.err } : this.data;
     }
 
