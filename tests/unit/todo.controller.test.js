@@ -1,8 +1,6 @@
 const TodoController = require('../../src/use-cases/Todo-use-case/TodoController');
 const TodoModel = require('../../src/model/todo.model')
-
 const httpMocks = require('node-mocks-http');
-
 const newTodo = require('../mock-data/new-todo.json')
 
 TodoModel.create = jest.fn();
@@ -14,7 +12,8 @@ describe('Todo Controller', () => {
     beforeEach(() => {
         request = httpMocks.createRequest();
         response = httpMocks.createResponse();
-        next = null;
+        next = jest.fn();
+        TodoModel.create.mockReturnValue(newTodo);
     });
 
     describe('Todo create todo', () => {
@@ -49,6 +48,14 @@ describe('Todo Controller', () => {
 
         });
 
-    } )
+        it('should handle errors from mongo', async () => {
+            const errorMessage = {message: "Done property missing"};
+            const rejectedPromise = Promise.reject(errorMessage);
 
+            TodoModel.create.mockReturnValue(rejectedPromise);
+
+            await TodoController.createTodo(request, response, next);
+            expect(response._getJSONData().errorMessage).toStrictEqual(errorMessage);
+        });
+    } )
 })

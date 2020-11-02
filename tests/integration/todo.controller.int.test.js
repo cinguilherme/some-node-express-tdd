@@ -23,20 +23,32 @@ describe(endpoint_url, () => {
         expect(response.statusCode).toBe(201);
         expect(response.body.title).toBe(newTodo.title);
         expect(response.body.done).toBe(newTodo.done);
-        console.log(response.body);
+        
     });
 
+    it('POST error' + endpoint_url, async () => {
+        const response = await 
+        request(app)
+        .post(endpoint_url)
+        .send({title:"just title"});
+
+        const expectedError = "Todo validation failed";
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.errorMessage._message)
+        .toStrictEqual(expectedError);
+    });
+
+
     it('GET ' + endpoint_url, async () => {
-        
+        await request(app).post(endpoint_url).send(newTodo);
+
         const response = await 
         request(app)
         .get(endpoint_url)
         .send();
 
         expect(response.statusCode).toBe(200);
-       
-        console.log(response.body.length);
+        expect(response.body.length).toBe(1);
     });
-
-
 })

@@ -12,15 +12,15 @@ app.use(express.json());
 
 app.use('/todos', todoRoutes);
 
+app.use( (error, req, res, next) => {
+    res.status(500)
+    .json({message: error.message})
+    .send();
+});
+
 app.get('/', (req, res) => {
     return res.json({status: "ok"})
     
 })
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-    console.log(`app listening in ${port}`);
-});
 
 module.exports = app;
