@@ -9,13 +9,14 @@ TodoModel.find = jest.fn();
 TodoModel.findById = jest.fn();
 
 describe('Get todos', () => {
-
+    
     let request, response, next;
     
     beforeEach(() => {
         request = httpMocks.createRequest();
         response = httpMocks.createResponse();
         next = jest.fn();
+
         TodoModel.create.mockReturnValue(newTodo);
     });
 

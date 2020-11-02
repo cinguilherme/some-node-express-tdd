@@ -1,8 +1,8 @@
-const createController = require('./create-todo/CreateTodoController');
-const getTodo = require('./get-todos/GetTodoController');
-const todoById = require('./get-todo-by-id/GetTodoByIdController');
+const {createTodo} = require('./create-todo/CreateTodoController');
+const {getTodos} = require('./get-todos/GetTodoController');
+const {getTodoById} = require('./get-todo-by-id/GetTodoByIdController');
 
-exports.createTodo = createController.createTodo;
-exports.getTodos = getTodo.getTodos;
-exports.getTodoById = todoById.getTodoById;
+exports.createTodo = createTodo;
+exports.getTodos = getTodos;
+exports.getTodoById = getTodoById;
 

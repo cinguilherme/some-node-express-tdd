@@ -2,7 +2,6 @@ const TodoController = require('../../src/use-cases/Todo-use-case/TodoController
 const TodoModel = require('../../src/model/todo.model')
 const httpMocks = require('node-mocks-http');
 const newTodo = require('../mock-data/new-todo.json');
-const severalTodos = require('../mock-data/all-todos.json');
 
 TodoModel.create = jest.fn();
 TodoModel.find = jest.fn();
