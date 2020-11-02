@@ -4,6 +4,7 @@ const httpMocks = require('node-mocks-http');
 const newTodo = require('../mock-data/new-todo.json')
 
 TodoModel.create = jest.fn();
+TodoModel.find = jest.fn();
 
 describe('Todo Controller', () => {
     
@@ -22,7 +23,12 @@ describe('Todo Controller', () => {
             expect(typeof TodoController.getTodos).toBe("function");
         });
 
-        
+        it('should get all todos', async () => {
+            TodoModel.find.mockReturnValue([newTodo]);
+            await TodoController.getTodos(request, response, next);
+            expect(response.statusCode).toBe(200);
+            expect(response._getJSONData()).toStrictEqual([newTodo]);
+        })
 
     });
 
