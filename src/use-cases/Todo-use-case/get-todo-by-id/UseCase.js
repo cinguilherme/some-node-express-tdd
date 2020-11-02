@@ -11,7 +11,7 @@ class UseCase {
         try {
             const result = await this.model.findById(id);
             return new Responder(result, undefined);
-        } catch(err) {
+        } catch (err) {
             return new Responder(undefined, err);
         }
     }

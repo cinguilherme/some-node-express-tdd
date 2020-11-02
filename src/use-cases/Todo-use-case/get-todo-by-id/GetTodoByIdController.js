@@ -11,7 +11,7 @@ exports.getTodoById = async (request, response) => {
     const useCase = new UseCase(TodoModel, command);
     const responder = await useCase.execute();
 
-    const status = responder.isErr() ? 400 : 200;
+    const status = responder.getStatus();
 
     response.status(status).json(responder.extract()).send();
 }

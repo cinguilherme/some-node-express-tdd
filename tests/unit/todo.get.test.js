@@ -9,9 +9,9 @@ TodoModel.find = jest.fn();
 TodoModel.findById = jest.fn();
 
 describe('Get todos', () => {
-    
+
     let request, response, next;
-    
+
     beforeEach(() => {
         request = httpMocks.createRequest();
         response = httpMocks.createResponse();
@@ -32,7 +32,7 @@ describe('Get todos', () => {
         expect(response._isEndCalled()).toBeTruthy();
     })
 
-    it('should return several todos' , async () => {
+    it('should return several todos', async () => {
         TodoModel.find.mockReturnValue(severalTodos);
         await TodoController.getTodos(request, response, next);
         expect(response.statusCode).toBe(200);
@@ -40,7 +40,7 @@ describe('Get todos', () => {
         expect(response._isEndCalled()).toBeTruthy();
     });
 
-    it('should return zero todos' , async () => {
+    it('should return zero todos', async () => {
         TodoModel.find.mockReturnValue([]);
         await TodoController.getTodos(request, response, next);
         expect(response.statusCode).toBe(200);
@@ -49,7 +49,7 @@ describe('Get todos', () => {
     });
 
     it('should handle error on get todos', async () => {
-        const errorMessage = {message: "unable to retrieve data from mongo"};
+        const errorMessage = { message: "unable to retrieve data from mongo" };
         const rejectedPromise = Promise.reject(errorMessage);
         TodoModel.find.mockReturnValue(rejectedPromise);
         await TodoController.getTodos(request, response, next);
@@ -68,6 +68,25 @@ describe('Get todos', () => {
             await TodoController.getTodoById(request, response, next);
             expect(response.statusCode).toBe(200);
             expect(response._getJSONData()).toStrictEqual(newTodo);
+        });
+
+        it('should return 500 when db does not respond', async () => {
+            const errorMessage = { message: "unable to retrieve data from mongo" };
+            const rejectedPromise = Promise.reject(errorMessage);
+            TodoModel.findById.mockReturnValue(rejectedPromise);
+            request.params.id = 1;
+            await TodoController.getTodoById(request, response, next);
+            expect(response.statusCode).toBe(500);
+            expect(response._getJSONData().errorMessage)
+                .toStrictEqual({ message: "unable to retrieve data from mongo" });
+
+        });
+
+        it('should return 404 if no doc is found', async () => {
+            TodoModel.findById.mockReturnValue(null);
+            request.params.id = '5fa01f1c346bef4b98170d20';
+            await TodoController.getTodoById(request, response, next);
+            expect(response.statusCode).toBe(404);
         });
     });
 
