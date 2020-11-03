@@ -5,10 +5,7 @@ const newTodo = require('../mock-data/new-todo.json');
 const updatedTodo = require('../mock-data/updated-new-todo.json');
 const severalTodos = require('../mock-data/all-todos.json');
 
-TodoModel.create = jest.fn();
-TodoModel.find = jest.fn();
-TodoModel.findById = jest.fn();
-TodoModel.findByIdAndUpdate = jest.fn();
+jest.mock('../../src/model/todo.model');
 
 describe('Update todos', () => {
 

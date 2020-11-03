@@ -4,9 +4,7 @@ const httpMocks = require('node-mocks-http');
 const newTodo = require('../mock-data/new-todo.json');
 const severalTodos = require('../mock-data/all-todos.json');
 
-TodoModel.create = jest.fn();
-TodoModel.find = jest.fn();
-TodoModel.findById = jest.fn();
+jest.mock('../../src/model/todo.model');
 
 describe('Get todos', () => {
 

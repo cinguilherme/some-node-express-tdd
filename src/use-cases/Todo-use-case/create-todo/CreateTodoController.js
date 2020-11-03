@@ -3,7 +3,7 @@ const TodoModel = require('../../../model/todo.model');
 const { CreateTodo } = require('./CreateTodoUseCase');
 const { Command } = require('./Command');
 
-exports.createTodo = async (request, response) => {
+exports.createTodo = async (request, response, next) => {
     const command = new Command(request.body);
     const useCase = new CreateTodo(TodoModel, command);
     const responder = await useCase.execute();

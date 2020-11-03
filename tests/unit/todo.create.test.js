@@ -3,14 +3,12 @@ const TodoModel = require('../../src/model/todo.model')
 const httpMocks = require('node-mocks-http');
 const newTodo = require('../mock-data/new-todo.json');
 
-TodoModel.create = jest.fn();
-TodoModel.find = jest.fn();
-TodoModel.findById = jest.fn();
+jest.mock('../../src/model/todo.model');
 
 describe('Todo Controller', () => {
-    
+
     let request, response, next;
-    
+
     beforeEach(() => {
         request = httpMocks.createRequest();
         response = httpMocks.createResponse();
@@ -37,22 +35,22 @@ describe('Todo Controller', () => {
 
         it('should return a response code 201 created when create document is success', async () => {
             await TodoController.createTodo(request, response, next);
-            
+
             expect(response.statusCode).toBe(201);
             expect(response._isEndCalled()).toBeTruthy();
         });
 
         it('should return json body in response', async () => {
-            
+
             TodoModel.create.mockReturnValue(newTodo);
-            await  TodoController.createTodo(request, response, next);
-            
+            await TodoController.createTodo(request, response, next);
+
             expect(response._getJSONData()).toStrictEqual(newTodo);
 
         });
 
         it('should handle errors from mongo', async () => {
-            const errorMessage = {message: "Done property missing"};
+            const errorMessage = { message: "Done property missing" };
             const rejectedPromise = Promise.reject(errorMessage);
 
             TodoModel.create.mockReturnValue(rejectedPromise);
@@ -60,5 +58,5 @@ describe('Todo Controller', () => {
             await TodoController.createTodo(request, response, next);
             expect(response._getJSONData().errorMessage).toStrictEqual(errorMessage);
         });
-    } )
+    })
 })

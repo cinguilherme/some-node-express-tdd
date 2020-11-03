@@ -7,6 +7,7 @@
     "go": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest --watchAll",
+    "test-image": "jest",
     "lint": "eslint --fix --ext .js .",
     "build": "tsc ./src/server.ts"
   },
